@@ -145,7 +145,7 @@ export default function OrdersPage() {
                 Đang tải...
               </>
             ) : (
-              <>🔄 Làm mới</>
+              <> Làm mới</>
             )}
           </button>
         </div>
@@ -176,13 +176,7 @@ export default function OrdersPage() {
             {orders.map((o) => (
               <tr key={o._id}>
                 <td>
-                  <span style={{
-                    fontWeight: 600,
-                    fontFamily: 'monospace',
-                    background: 'var(--gray-100)',
-                    padding: '4px 8px',
-                    borderRadius: 4
-                  }}>
+                  <span className="font-mono font-semibold px-2 py-1 rounded bg-gray-100 dark:bg-white/10">
                     #{o.orderCode}
                   </span>
                 </td>

@@ -143,7 +143,7 @@ export default function UsersPage() {
               </>
             ) : (
               <>
-                <span>🔄</span>
+
                 Làm mới
               </>
             )}
@@ -168,7 +168,7 @@ export default function UsersPage() {
               <th>Tên</th>
               <th>Email</th>
               <th>Điện thoại</th>
-              <th style={{ width: 120 }}>Vai trò</th>
+              <th style={{ width: 160 }}>Vai trò</th>
               <th style={{ width: 140 }}>Trạng thái</th>
               <th style={{ width: 140 }}>Thao tác</th>
             </tr>
@@ -242,7 +242,7 @@ export default function UsersPage() {
                       checked={!!u.isActive}
                       onChange={(e) => updateUser(u._id, { isActive: e.target.checked })}
                     />
-                    <span className={`admin-badge ${u.isActive ? 'success' : 'danger'}`}>
+                    <span className={`admin-badge ${u.isActive ? 'success' : 'danger'}`} style={{ whiteSpace: 'nowrap' }}>
                       {u.isActive ? 'Hoạt động' : 'Ngừng'}
                     </span>
                   </label>

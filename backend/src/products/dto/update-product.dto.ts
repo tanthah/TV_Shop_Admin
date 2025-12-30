@@ -55,5 +55,14 @@ export class UpdateProductDto {
 
   @IsOptional()
   keepExistingImages?: string | boolean;
+
+  @IsOptional()
+  @Transform(({ value }) => {
+    if (Array.isArray(value)) return value;
+    return [value];
+  })
+  @IsArray()
+  @IsString({ each: true })
+  existingImageUrls?: string[];
 }
 

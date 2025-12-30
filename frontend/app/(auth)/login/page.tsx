@@ -11,7 +11,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const baseURL = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || 'http://localhost:4000';
+  const baseURL = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || 'http://localhost:4001';
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,50 +33,23 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="admin-content" style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
+    <div className="flex items-center justify-center min-h-screen bg-slate-900" style={{
       background: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0f172a 100%)'
     }}>
-      <div style={{ width: '100%', maxWidth: 440, padding: '24px' }}>
+      <div className="w-full max-w-[440px] p-6">
         {/* Logo/Brand */}
-        <div style={{
-          textAlign: 'center',
-          marginBottom: 32
-        }}>
-          <div style={{
-            width: 64,
-            height: 64,
-            background: 'linear-gradient(135deg, #3b82f6, #2563eb)',
-            borderRadius: 16,
-            margin: '0 auto 16px',
-            boxShadow: '0 8px 32px rgba(59, 130, 246, 0.3)'
-          }} />
-          <h1 style={{
-            fontSize: 28,
-            fontWeight: 700,
-            color: '#ffffff',
-            margin: 0,
-            letterSpacing: '-0.02em'
-          }}>
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 rounded-2xl mx-auto mb-4 bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/30" />
+          <h1 className="text-2xl font-bold text-white mb-0 tracking-tight">
             UTE Shop Admin
           </h1>
-          <p style={{
-            color: 'rgba(255,255,255,0.6)',
-            marginTop: 8,
-            fontSize: 14
-          }}>
+          <p className="text-white/60 mt-2 text-sm">
             Đăng nhập để quản lý hệ thống
           </p>
         </div>
 
         {/* Login Card */}
-        <div className="admin-card" style={{
-          padding: 32,
-          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
-        }}>
+        <div className="admin-card p-8 shadow-2xl">
           <form onSubmit={onSubmit}>
             {/* Email Field */}
             <div className="form-group">
@@ -114,7 +87,7 @@ export default function LoginPage() {
 
             {/* Error Message */}
             {error && (
-              <div className="admin-alert error" style={{ marginBottom: 16 }}>
+              <div className="p-3 mb-4 rounded-md bg-red-500/10 border border-red-500/20 text-red-500 flex items-center gap-2 text-sm">
                 <span>⚠️</span>
                 <span>{error}</span>
               </div>
@@ -122,14 +95,13 @@ export default function LoginPage() {
 
             {/* Submit Button */}
             <button
-              className="admin-button lg"
+              className="admin-button lg w-full mt-2"
               type="submit"
               disabled={loading}
-              style={{ width: '100%', marginTop: 8 }}
             >
               {loading ? (
                 <>
-                  <span className="admin-spinner" style={{ width: 18, height: 18 }} />
+                  <span className="admin-spinner w-[18px] h-[18px]" />
                   Đang đăng nhập...
                 </>
               ) : (
@@ -140,37 +112,16 @@ export default function LoginPage() {
         </div>
 
         {/* Footer Links */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: 24,
-          marginTop: 24
-        }}>
+        <div className="flex justify-center gap-6 mt-6">
           <a
             href="/register"
-            style={{
-              color: 'rgba(255,255,255,0.7)',
-              textDecoration: 'none',
-              fontSize: 14,
-              fontWeight: 500,
-              transition: 'color 0.2s'
-            }}
-            onMouseOver={(e) => e.currentTarget.style.color = '#ffffff'}
-            onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
+            className="text-white/70 hover:text-white no-underline text-sm font-medium transition-colors"
           >
             Đăng ký Admin
           </a>
           <a
             href="/forgot-password"
-            style={{
-              color: 'rgba(255,255,255,0.7)',
-              textDecoration: 'none',
-              fontSize: 14,
-              fontWeight: 500,
-              transition: 'color 0.2s'
-            }}
-            onMouseOver={(e) => e.currentTarget.style.color = '#ffffff'}
-            onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
+            className="text-white/70 hover:text-white no-underline text-sm font-medium transition-colors"
           >
             Quên mật khẩu?
           </a>

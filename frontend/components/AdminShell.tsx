@@ -11,7 +11,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
-    const baseURL = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || 'http://localhost:4000';
+    const baseURL = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || 'http://localhost:4001';
     axios.defaults.baseURL = baseURL;
     axios.interceptors.request.use((config) => {
       const token = Cookies.get('admin_token') || '';
@@ -109,11 +109,17 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   return (
     <div className={`admin-layout${collapsed ? ' collapsed' : ''}`}>
       <aside className={`admin-sidebar${collapsed ? ' collapsed' : ''}`}>
-        <div className="sidebar-header">
-          <div className="brand">
-            <span>UTE Shop Admin</span>
+        <div className="sidebar-header flex items-center justify-between px-4 py-4 border-b border-white/10 min-h-[64px]">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex-shrink-0 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-900/20">
+              U
+            </div>
+            <div className="flex flex-col">
+              <span className="text-sm font-bold tracking-tight whitespace-nowrap text-white leading-tight">UTE Shop</span>
+              <span className="text-[11px] font-medium text-blue-200/80 leading-tight">Admin Portal</span>
+            </div>
           </div>
-          <button className="toggle-btn" onClick={() => setCollapsed(!collapsed)}>
+          <button className="toggle-btn w-8 h-8 rounded-md bg-white/10 hover:bg-white/15 border border-white/10 hover:border-white/20 flex items-center justify-center transition-all text-white" onClick={() => setCollapsed(!collapsed)}>
             {collapsed ? '›' : '‹'}
           </button>
         </div>

@@ -120,7 +120,7 @@ export default function PromotionsPage() {
       {/* Create Coupon Form */}
       {showForm && (
         <div className="admin-card" style={{ marginBottom: 24 }}>
-          <div className="admin-card-title">🏷️ Tạo mã khuyến mãi mới</div>
+          <div className="admin-card-title">Tạo mã khuyến mãi mới</div>
           <form onSubmit={createCoupon}>
             <div className="form-grid">
               <div className="form-group">
@@ -295,7 +295,7 @@ export default function PromotionsPage() {
             onClick={() => fetchCoupons()}
             disabled={loading}
           >
-            {loading ? 'Đang tải...' : '🔄 Làm mới'}
+            {loading ? 'Đang tải...' : 'Làm mới'}
           </button>
         </div>
       </div>
@@ -328,15 +328,7 @@ export default function PromotionsPage() {
               return (
                 <tr key={c._id}>
                   <td>
-                    <span style={{
-                      fontWeight: 700,
-                      fontFamily: 'monospace',
-                      background: 'linear-gradient(135deg, var(--primary-50), var(--primary-100))',
-                      color: 'var(--primary-700)',
-                      padding: '6px 12px',
-                      borderRadius: 6,
-                      fontSize: 13
-                    }}>
+                    <span className="font-mono font-bold px-3 py-1.5 rounded-md text-sm bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 dark:from-blue-900/30 dark:to-blue-800/30 dark:text-blue-300">
                       {c.code}
                     </span>
                   </td>
@@ -356,7 +348,7 @@ export default function PromotionsPage() {
                     </span>
                   </td>
                   <td>
-                    <span className={`admin-badge ${c.isActive ? 'success' : 'danger'}`}>
+                    <span className={`admin-badge ${c.isActive ? 'success' : 'danger'}`} style={{ whiteSpace: 'nowrap' }}>
                       {c.isActive ? '✓ Hoạt động' : '✕ Ngừng'}
                     </span>
                   </td>
@@ -372,7 +364,7 @@ export default function PromotionsPage() {
                         className="admin-button danger sm"
                         onClick={() => removeCoupon(c._id)}
                       >
-                        🗑️ Xoá
+                        Xoá
                       </button>
                     </div>
                   </td>

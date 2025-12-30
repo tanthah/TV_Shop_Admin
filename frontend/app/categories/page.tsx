@@ -311,7 +311,7 @@ export default function CategoriesPage() {
 
                 <div className="form-group" style={{ marginBottom: 0, alignSelf: 'flex-end' }}>
                     <button className="admin-button" onClick={() => fetchCategories()} disabled={loading}>
-                        {loading ? 'Đang tải...' : '🔄 Làm mới'}
+                        {loading ? 'Đang tải...' : 'Làm mới'}
                     </button>
                 </div>
             </div>
@@ -346,17 +346,7 @@ export default function CategoriesPage() {
                                             }}
                                         />
                                     ) : (
-                                        <div style={{
-                                            width: 60,
-                                            height: 60,
-                                            background: 'var(--gray-100)',
-                                            borderRadius: 8,
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            color: 'var(--gray-400)',
-                                            fontSize: 24
-                                        }}>
+                                        <div className="w-[60px] h-[60px] bg-gray-100 dark:bg-white/10 rounded-lg flex items-center justify-center text-gray-400 dark:text-white/40 text-2xl">
                                             📁
                                         </div>
                                     )}
@@ -365,7 +355,7 @@ export default function CategoriesPage() {
                                     <div style={{ fontWeight: 600 }}>{c.name}</div>
                                 </td>
                                 <td>
-                                    <code style={{ fontSize: 12, background: 'var(--gray-100)', padding: '2px 6px', borderRadius: 4 }}>
+                                    <code className="text-xs bg-gray-100 dark:bg-white/10 px-1.5 py-0.5 rounded font-mono">
                                         {c.slug}
                                     </code>
                                 </td>
@@ -383,17 +373,19 @@ export default function CategoriesPage() {
                                 </td>
                                 <td>
                                     {/* Status Toggle Switch */}
-                                    <label className="toggle-switch">
-                                        <input
-                                            type="checkbox"
-                                            checked={c.isActive}
-                                            onChange={() => toggleStatus(c)}
-                                        />
-                                        <span className="toggle-slider"></span>
-                                    </label>
-                                    <span style={{ marginLeft: 8, fontSize: 12, color: c.isActive ? 'var(--success-600)' : 'var(--gray-400)' }}>
-                                        {c.isActive ? 'Hiển thị' : 'Ẩn'}
-                                    </span>
+                                    <div className="flex items-center gap-2 whitespace-nowrap">
+                                        <label className="toggle-switch">
+                                            <input
+                                                type="checkbox"
+                                                checked={c.isActive}
+                                                onChange={() => toggleStatus(c)}
+                                            />
+                                            <span className="toggle-slider"></span>
+                                        </label>
+                                        <span style={{ fontSize: 12, color: c.isActive ? 'var(--success-600)' : 'var(--gray-400)' }}>
+                                            {c.isActive ? 'Hiển thị' : 'Ẩn'}
+                                        </span>
+                                    </div>
                                 </td>
                                 <td>
                                     <div className="admin-actions">
@@ -402,14 +394,14 @@ export default function CategoriesPage() {
                                             onClick={() => openModal(c)}
                                             title="Sửa danh mục"
                                         >
-                                            ✏️ Sửa
+                                            Sửa
                                         </button>
                                         <button
                                             className="admin-button danger sm"
                                             onClick={() => removeCategory(c._id)}
                                             title="Xoá danh mục"
                                         >
-                                            🗑️
+                                            Xóa
                                         </button>
                                     </div>
                                 </td>

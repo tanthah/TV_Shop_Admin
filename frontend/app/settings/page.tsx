@@ -101,7 +101,7 @@ export default function SettingsPage() {
         <div style={{ display: 'grid', gap: 24 }}>
           {/* General Settings */}
           <div className="admin-card">
-            <div className="admin-card-title">🏪 Thông tin chung</div>
+            <div className="admin-card-title">Thông tin chung</div>
             <div className="form-grid">
               <div className="form-group">
                 <label className="form-label" htmlFor="siteName">Tên website</label>
@@ -165,7 +165,7 @@ export default function SettingsPage() {
 
           {/* Order Settings */}
           <div className="admin-card">
-            <div className="admin-card-title">📋 Cài đặt đơn hàng</div>
+            <div className="admin-card-title">Cài đặt đơn hàng</div>
             <div className="form-grid">
               <div className="form-group">
                 <label className="form-label">Khách vãng lai</label>
@@ -210,7 +210,7 @@ export default function SettingsPage() {
 
           {/* Notification Settings */}
           <div className="admin-card">
-            <div className="admin-card-title">🔔 Cài đặt thông báo</div>
+            <div className="admin-card-title">Cài đặt thông báo</div>
             <div className="form-grid">
               <div className="form-group">
                 <label className="form-label">Thông báo Email</label>
@@ -253,7 +253,7 @@ export default function SettingsPage() {
                   Đang lưu...
                 </>
               ) : (
-                <>✓ Lưu cài đặt</>
+                <>Lưu cài đặt</>
               )}
             </button>
             <button
@@ -261,7 +261,7 @@ export default function SettingsPage() {
               onClick={fetchSettings}
               disabled={saving}
             >
-              ↺ Đặt lại
+              Đặt lại
             </button>
           </div>
         </div>

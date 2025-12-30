@@ -110,7 +110,7 @@ export default function CommentsPage() {
             onClick={() => fetchComments()}
             disabled={loading}
           >
-            {loading ? 'Đang tải...' : '🔄 Làm mới'}
+            {loading ? 'Đang tải...' : 'Làm mới'}
           </button>
         </div>
       </div>
@@ -181,8 +181,8 @@ export default function CommentsPage() {
                   )}
                 </td>
                 <td>
-                  <span className={`admin-badge ${c.isHidden ? 'danger' : 'success'}`}>
-                    {c.isHidden ? '👁️‍🗨️ Đã ẩn' : '✓ Hiển thị'}
+                  <span className={`admin-badge ${c.isHidden ? 'danger' : 'success'}`} style={{ whiteSpace: 'nowrap' }}>
+                    {c.isHidden ? 'Đã ẩn' : 'Hiển thị'}
                   </span>
                 </td>
                 <td>
@@ -192,14 +192,14 @@ export default function CommentsPage() {
                       onClick={() => toggleHide(c._id, !c.isHidden)}
                       title={c.isHidden ? 'Hiện bình luận' : 'Ẩn bình luận'}
                     >
-                      {c.isHidden ? '👁️ Hiện' : '🙈 Ẩn'}
+                      {c.isHidden ? 'Hiện' : 'Ẩn'}
                     </button>
                     <button
                       className="admin-button danger sm"
                       onClick={() => removeComment(c._id)}
                       title="Xoá bình luận"
                     >
-                      🗑️ Xoá
+                      Xoá
                     </button>
                   </div>
                 </td>

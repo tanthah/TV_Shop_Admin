@@ -43,23 +43,40 @@ export class ProductsController {
   async update(@Param('id') id: string, @UploadedFiles() files: any[], @Body() body: UpdateProductDto) {
     try {
       const payload: any = { ...body };
-      if (files && files.length > 0) {
-        const newImages = files.map((f) => f.path);
-        if (body.keepExistingImages === 'true' || body.keepExistingImages === true) {
-          const existingProduct = await this.productsService.get(id);
-          if (existingProduct) {
-            payload.images = [...(existingProduct.images || []), ...newImages];
-          } else {
-            payload.images = newImages;
-          }
-        } else {
-          payload.images = newImages;
+
+      // Handle images logic
+      const newImages = (files || []).map((f) => f.path);
+      let finalImages: string[] = [];
+
+      if (body.keepExistingImages === 'true' || body.keepExistingImages === true) {
+        // If keeping existing, we rely on the list sent from frontend (which reflects deletions)
+        // ValidationPipe ensures existingImageUrls is valid if present
+        let current: string[] = [];
+        if (body.existingImageUrls) {
+          current = Array.isArray(body.existingImageUrls) ? body.existingImageUrls : [body.existingImageUrls as unknown as string];
         }
+        finalImages = [...current, ...newImages];
+      } else {
+        // If not keeping existing, we replace everything with new images
+        finalImages = newImages;
       }
+
+      // Only update images if there's a change or explicit action
+      // If no new files and keepExistingImages is false, it means clear all images?
+      // Or if keepExistingImages is true but processed list is different?
+      // Simplest: Always update 'images' if files detected OR keepExistingImages flag is present
+      if ((files && files.length > 0) || body.keepExistingImages || body.existingImageUrls) {
+        payload.images = finalImages;
+      }
+
+      // Cleanup auxiliary fields
       delete payload.keepExistingImages;
+      delete payload.existingImageUrls;
+
       const data = await this.productsService.update(id, payload);
       return data ? { success: true, data } : { success: false, message: 'Not found' };
     } catch (err: any) {
+      console.error('Update Product Error:', err); // Log for debugging
       throw new (await import('@nestjs/common')).BadRequestException(err?.message || 'Không thể cập nhật sản phẩm');
     }
   }

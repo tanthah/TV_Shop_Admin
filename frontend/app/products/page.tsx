@@ -372,7 +372,7 @@ export default function ProductsPage() {
 
         <div className="form-group" style={{ marginBottom: 0, alignSelf: 'flex-end' }}>
           <button className="admin-button" onClick={() => fetchProducts()} disabled={loading}>
-            {loading ? 'Đang tải...' : '🔄 Làm mới'}
+            {loading ? 'Đang tải...' : ' Làm mới'}
           </button>
         </div>
       </div>
@@ -408,17 +408,7 @@ export default function ProductsPage() {
                       }}
                     />
                   ) : (
-                    <div style={{
-                      width: 60,
-                      height: 60,
-                      background: 'var(--gray-100)',
-                      borderRadius: 8,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: 'var(--gray-400)',
-                      fontSize: 24
-                    }}>
+                    <div className="w-[60px] h-[60px] bg-gray-100 dark:bg-white/10 rounded-lg flex items-center justify-center text-gray-400 dark:text-white/40 text-2xl">
                       📦
                     </div>
                   )}
@@ -451,17 +441,19 @@ export default function ProductsPage() {
                 </td>
                 <td>
                   {/* Status Toggle Switch */}
-                  <label className="toggle-switch">
-                    <input
-                      type="checkbox"
-                      checked={p.isActive}
-                      onChange={() => toggleStatus(p)}
-                    />
-                    <span className="toggle-slider"></span>
-                  </label>
-                  <span style={{ marginLeft: 8, fontSize: 12, color: p.isActive ? 'var(--success-600)' : 'var(--gray-400)' }}>
-                    {p.isActive ? 'Đang bán' : 'Ngừng bán'}
-                  </span>
+                  <div className="flex items-center gap-2 whitespace-nowrap">
+                    <label className="toggle-switch">
+                      <input
+                        type="checkbox"
+                        checked={p.isActive}
+                        onChange={() => toggleStatus(p)}
+                      />
+                      <span className="toggle-slider"></span>
+                    </label>
+                    <span style={{ fontSize: 12, color: p.isActive ? 'var(--success-600)' : 'var(--gray-400)' }}>
+                      {p.isActive ? 'Đang bán' : 'Ngừng bán'}
+                    </span>
+                  </div>
                 </td>
                 <td>
                   <div className="admin-actions">
@@ -470,7 +462,7 @@ export default function ProductsPage() {
                       onClick={() => openModal(p)}
                       title="Sửa sản phẩm"
                     >
-                      ✏️ Sửa
+                      Sửa
                     </button>
                     <button
                       className="admin-button danger sm"
@@ -531,8 +523,8 @@ export default function ProductsPage() {
       {/* Create/Edit Modal */}
       {showModal && (
         <div className="admin-modal-overlay" onClick={closeModal}>
-          <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="admin-modal-header">
+          <div className="admin-modal dark:bg-[#1e293b] dark:border-slate-700" onClick={(e) => e.stopPropagation()}>
+            <div className="admin-modal-header dark:border-slate-700">
               <h2>{editingProduct ? 'Cập nhật sản phẩm' : 'Thêm sản phẩm mới'}</h2>
               <button className="admin-modal-close" onClick={closeModal}>✕</button>
             </div>
@@ -750,7 +742,7 @@ export default function ProductsPage() {
                 </div>
               </div>
 
-              <div className="admin-modal-footer">
+              <div className="admin-modal-footer dark:border-slate-700">
                 <button type="button" className="admin-button secondary" onClick={closeModal}>
                   Huỷ
                 </button>

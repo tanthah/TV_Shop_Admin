@@ -11,7 +11,7 @@ export default function DashboardPage() {
   const [token, setToken] = useState<string | null>(null);
   const [metrics, setMetrics] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const baseURL = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || 'http://localhost:4000';
+  const baseURL = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || 'http://localhost:4001';
 
   useEffect(() => {
     setMounted(true);
@@ -54,9 +54,9 @@ export default function DashboardPage() {
   return (
     <div className="admin-container">
       {/* Welcome Section */}
-      <div style={{ marginBottom: 32 }}>
-        <h1 className="admin-title" style={{ marginBottom: 8, fontSize: 28 }}>
-          Chào mừng trở lại! 👋
+      <div style={{ marginBottom: 24 }}>
+        <h1 className="admin-title" style={{ marginBottom: 4, fontSize: 24 }}>
+          Chào mừng trở lại!
         </h1>
         <p className="text-muted" style={{ fontSize: 15 }}>
           Đây là tổng quan về cửa hàng của bạn hôm nay
@@ -91,7 +91,7 @@ export default function DashboardPage() {
             <div className="stat-card-label">Tổng đơn hàng</div>
             <div className="stat-card-value">{metrics.totalOrders?.toLocaleString() || 0}</div>
             <div className="stat-card-change positive">
-              📈 Tất cả thời gian
+              Tất cả thời gian
             </div>
           </div>
 
@@ -99,7 +99,7 @@ export default function DashboardPage() {
             <div className="stat-card-label">Đơn mới hôm nay</div>
             <div className="stat-card-value">{metrics.newToday?.toLocaleString() || 0}</div>
             <div className="stat-card-change positive">
-              🆕 Hôm nay
+              Hôm nay
             </div>
           </div>
 
@@ -109,7 +109,7 @@ export default function DashboardPage() {
               {formatCurrency(metrics.revenue || 0)}
             </div>
             <div className="stat-card-change positive">
-              💰 Đã thanh toán
+              Đã thanh toán
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@ export default function DashboardPage() {
       {/* Chart */}
       {metrics && metrics.statusCounts && (
         <div className="admin-card" style={{ marginBottom: 24 }}>
-          <div className="admin-card-title">📊 Thống kê đơn hàng theo trạng thái</div>
+          <div className="admin-card-title">Thống kê đơn hàng theo trạng thái</div>
           <div style={{ maxWidth: 800, margin: '0 auto' }}>
             <Bar
               data={{
@@ -193,7 +193,7 @@ export default function DashboardPage() {
 
       {/* Quick Links */}
       <div className="admin-card">
-        <div className="admin-card-title">⚡ Truy cập nhanh</div>
+        <div className="admin-card-title">Truy cập nhanh</div>
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
@@ -203,47 +203,16 @@ export default function DashboardPage() {
             <a
               key={link.href}
               href={link.href}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 16,
-                padding: 16,
-                background: 'var(--gray-50)',
-                borderRadius: 12,
-                textDecoration: 'none',
-                color: 'inherit',
-                border: '1px solid var(--border-color)',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.background = 'var(--primary-50)';
-                e.currentTarget.style.borderColor = 'var(--primary-200)';
-                e.currentTarget.style.transform = 'translateY(-2px)';
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.background = 'var(--gray-50)';
-                e.currentTarget.style.borderColor = 'var(--border-color)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-white/5 rounded-lg border border-gray-200 dark:border-white/10 hover:bg-primary-50 dark:hover:bg-primary-900/10 hover:border-primary-500 dark:hover:border-primary-500 hover:-translate-y-0.5 transition-all duration-200 group no-underline text-inherit"
             >
-              <div style={{
-                fontSize: 32,
-                width: 56,
-                height: 56,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'white',
-                borderRadius: 12,
-                boxShadow: 'var(--shadow-sm)'
-              }}>
+              <div className="text-3xl w-14 h-14 flex items-center justify-center bg-white dark:bg-white/10 rounded-lg shadow-sm group-hover:scale-110 transition-transform duration-200">
                 {link.icon}
               </div>
               <div>
-                <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 2 }}>
+                <div className="font-semibold text-[15px] mb-0.5 group-hover:text-primary-600 dark:group-hover:text-primary-400">
                   {link.label}
                 </div>
-                <div style={{ fontSize: 13, color: 'var(--gray-500)' }}>
+                <div className="text-[13px] text-gray-500 dark:text-gray-400">
                   {link.desc}
                 </div>
               </div>

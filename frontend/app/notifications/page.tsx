@@ -25,13 +25,13 @@ export default function NotificationsPage() {
   const baseURL = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || 'http://localhost:4000';
 
   const notificationTypes = [
-    { value: 'order_confirmed', label: '✓ Đơn hàng đã xác nhận', icon: '📋' },
-    { value: 'order_shipping', label: '🚚 Đang giao hàng', icon: '🚚' },
-    { value: 'order_completed', label: '✅ Hoàn tất đơn hàng', icon: '✅' },
-    { value: 'coupon_received', label: '🏷️ Nhận mã giảm giá', icon: '🏷️' },
-    { value: 'comment_reply', label: '💬 Phản hồi bình luận', icon: '💬' },
-    { value: 'loyalty_points', label: '⭐ Điểm thưởng', icon: '⭐' },
-    { value: 'order_cancelled', label: '❌ Huỷ đơn hàng', icon: '❌' },
+    { value: 'order_confirmed', label: 'Đơn hàng đã xác nhận', icon: '📋' },
+    { value: 'order_shipping', label: 'Đang giao hàng', icon: '🚚' },
+    { value: 'order_completed', label: 'Hoàn tất đơn hàng', icon: '✅' },
+    { value: 'coupon_received', label: 'Nhận mã giảm giá', icon: '🏷️' },
+    { value: 'comment_reply', label: 'Phản hồi bình luận', icon: '💬' },
+    { value: 'loyalty_points', label: 'Điểm thưởng', icon: '⭐' },
+    { value: 'order_cancelled', label: 'Huỷ đơn hàng', icon: '❌' },
   ];
 
   const getTypeLabel = (type: string) => {
@@ -195,7 +195,7 @@ export default function NotificationsPage() {
 
             <div style={{ display: 'flex', gap: 12, marginTop: 16 }}>
               <button className="admin-button success" type="submit">
-                📤 Gửi thông báo
+                Gửi thông báo
               </button>
               <button
                 type="button"
@@ -235,7 +235,7 @@ export default function NotificationsPage() {
             onClick={() => fetchNotifications()}
             disabled={loading}
           >
-            {loading ? 'Đang tải...' : '🔄 Làm mới'}
+            {loading ? 'Đang tải...' : 'Làm mới'}
           </button>
         </div>
       </div>
@@ -263,7 +263,7 @@ export default function NotificationsPage() {
           </thead>
           <tbody>
             {items.map((n) => (
-              <tr key={n._id} style={{ background: n.isRead ? undefined : 'var(--primary-50)' }}>
+              <tr key={n._id} className={n.isRead ? '' : 'bg-blue-50 dark:bg-blue-900/10'}>
                 <td>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <div
@@ -318,13 +318,13 @@ export default function NotificationsPage() {
                       onClick={() => setRead(n._id, !n.isRead)}
                       style={{ fontSize: 12 }}
                     >
-                      {n.isRead ? '↩ Đánh dấu chưa đọc' : '✓ Đã đọc'}
+                      {n.isRead ? 'Đánh dấu chưa đọc' : 'Đánh dấu đã đọc'}
                     </button>
                     <button
                       className="admin-button danger sm"
                       onClick={() => removeNotification(n._id)}
                     >
-                      🗑️
+                      Xoá
                     </button>
                   </div>
                 </td>
