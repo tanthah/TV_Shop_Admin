@@ -50,7 +50,8 @@ export default function UsersPage() {
     }
   };
 
-  const deactivateUser = async (id: string) => {
+  const deleteUser = async (id: string) => {
+    if (!confirm('Hành động này sẽ XÓA VĨNH VIỄN tài khoản người dùng và không thể khôi phục. Bạn có chắc chắn?')) return;
     try {
       await axios.delete(`${baseURL}/users/${id}`, {
         headers: { Authorization: `Bearer ${Cookies.get('admin_token') || ''}` },
@@ -59,6 +60,12 @@ export default function UsersPage() {
     } catch (err: any) {
       setError(err.response?.data?.message || 'Không thể xoá người dùng');
     }
+  };
+
+  const toggleUserStatus = async (id: string, currentStatus: boolean) => {
+    // If currentStatus is active (true), we want to deactivate (false).
+    // If inactive (false), activate (true).
+    await updateUser(id, { isActive: !currentStatus });
   };
 
   const uploadAvatar = async (id: string, file: File | null) => {
@@ -170,7 +177,7 @@ export default function UsersPage() {
               <th>Điện thoại</th>
               <th style={{ width: 160 }}>Vai trò</th>
               <th style={{ width: 140 }}>Trạng thái</th>
-              <th style={{ width: 140 }}>Thao tác</th>
+              <th style={{ width: 240 }}>Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -236,25 +243,27 @@ export default function UsersPage() {
                   </select>
                 </td>
                 <td>
-                  <label className="admin-checkbox">
-                    <input
-                      type="checkbox"
-                      checked={!!u.isActive}
-                      onChange={(e) => updateUser(u._id, { isActive: e.target.checked })}
-                    />
-                    <span className={`admin-badge ${u.isActive ? 'success' : 'danger'}`} style={{ whiteSpace: 'nowrap' }}>
-                      {u.isActive ? 'Hoạt động' : 'Ngừng'}
-                    </span>
-                  </label>
+                  <span className={`admin-badge ${u.isActive ? 'success' : 'danger'}`} style={{ whiteSpace: 'nowrap' }}>
+                    {u.isActive ? 'Hoạt động' : 'Ngừng'}
+                  </span>
                 </td>
                 <td>
                   <div className="admin-actions">
                     <button
-                      className="admin-button danger sm"
-                      onClick={() => deactivateUser(u._id)}
-                      title="Vô hiệu hoá người dùng"
+                      className={`admin-button ${u.isActive ? 'danger' : 'success'} sm`}
+                      onClick={() => toggleUserStatus(u._id, u.isActive)}
+                      title={u.isActive ? "Vô hiệu hoá tài khoản" : "Kích hoạt tài khoản"}
+                      style={{ minWidth: 100 }}
                     >
-                      Vô hiệu hoá
+                      {u.isActive ? 'Vô hiệu hoá' : 'Kích hoạt'}
+                    </button>
+                    <button
+                      className="admin-button danger sm"
+                      onClick={() => deleteUser(u._id)}
+                      title="Xóa vĩnh viễn tài khoản"
+                      style={{ backgroundColor: '#b91c1c' }} // Darker red for delete
+                    >
+                      Xóa
                     </button>
                   </div>
                 </td>

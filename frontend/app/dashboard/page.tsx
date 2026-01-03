@@ -47,6 +47,8 @@ export default function DashboardPage() {
     { href: '/products', icon: '📦', label: 'Quản lý sản phẩm', desc: 'Thêm, sửa, xoá sản phẩm' },
     { href: '/users', icon: '👥', label: 'Quản lý người dùng', desc: 'Quản lý tài khoản người dùng' },
     { href: '/comments', icon: '💬', label: 'Quản lý bình luận', desc: 'Duyệt và phản hồi đánh giá' },
+    { href: '/chat', icon: '🎧', label: 'Hỗ trợ khách hàng', desc: 'Hỗ trợ trực tuyến khách hàng' },
+    { href: '/faq', icon: '❓', label: 'Quản lý FAQ', desc: 'Quản lý câu hỏi thường gặp' },
     { href: '/promotions', icon: '🏷️', label: 'Quản lý khuyến mãi', desc: 'Tạo mã giảm giá và ưu đãi' },
     { href: '/notifications', icon: '🔔', label: 'Thông báo', desc: 'Gửi thông báo tới người dùng' },
   ];

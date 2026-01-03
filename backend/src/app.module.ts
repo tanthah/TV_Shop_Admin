@@ -13,6 +13,8 @@ import { CouponsModule } from './coupons/coupons.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { SettingsModule } from './settings/settings.module';
 import { CategoriesModule } from './categories/categories.module';
+import { FaqsModule } from './faqs/faqs.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { CategoriesModule } from './categories/categories.module';
     NotificationsModule,
     SettingsModule,
     CategoriesModule,
+    FaqsModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],

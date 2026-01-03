@@ -17,6 +17,15 @@ export class Comment extends Document {
 
   @Prop({ default: false })
   isHidden: boolean;
+
+  @Prop({ default: false })
+  isRead: boolean;
+
+  @Prop({ type: Object })
+  adminReply?: {
+    content: string;
+    repliedAt: Date;
+  };
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment);

@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order } from '../schemas/order.schema';
+import { NotificationsService } from '../notifications/notifications.service';
 
 @Injectable()
 export class OrdersService {
-  constructor(@InjectModel(Order.name) private orderModel: Model<Order>) {}
+  constructor(
+    @InjectModel(Order.name) private orderModel: Model<Order>,
+    private notificationsService: NotificationsService
+  ) { }
 
   async list(status?: string) {
     const filter: any = {};
@@ -23,6 +27,18 @@ export class OrdersService {
     order.status = status;
     order.statusHistory.push({ status, note, updatedBy, timestamp: new Date() } as any);
     await order.save();
+
+    // Create & Emit notification
+    // Assuming we notify the USER who owns the order
+    await this.notificationsService.create({
+      userId: order.userId.toString(),
+      type: 'order_update',
+      title: `Đơn hàng #${order.orderCode || id.slice(-6)} đã cập nhật`,
+      message: `Trạng thái mới: ${status}`,
+      referenceId: id,
+      referenceType: 'order'
+    });
+
     return order.toObject();
   }
 

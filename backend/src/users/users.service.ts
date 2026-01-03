@@ -5,7 +5,7 @@ import { User } from '../schemas/user.schema';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<User>) { }
 
   async list({ page = 1, limit = 20, q = '', role = '', status = '' }: { page?: number; limit?: number; q?: string; role?: string; status?: string }) {
     const filter: any = {};
@@ -29,9 +29,9 @@ export class UsersService {
     return updated?.toObject() || null;
   }
 
-  async deactivate(id: string) {
-    const updated = await this.userModel.findByIdAndUpdate(id, { isActive: false }, { new: true }).select('-password');
-    return updated?.toObject() || null;
+  async delete(id: string) {
+    const deleted = await this.userModel.findByIdAndDelete(id);
+    return deleted?.toObject() || null;
   }
 
   async updateAvatar(id: string, avatarUrl: string) {

@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Notification } from '../schemas/notification.schema';
+import { NotificationsGateway } from './notifications.gateway';
 
 @Injectable()
 export class NotificationsService {
-  constructor(@InjectModel(Notification.name) private notificationModel: Model<Notification>) {}
+  constructor(
+    @InjectModel(Notification.name) private notificationModel: Model<Notification>,
+    private notificationsGateway: NotificationsGateway
+  ) { }
 
   async list({ page = 1, limit = 20, status = '' }: { page?: number; limit?: number; status?: string }) {
     const filter: any = {};
@@ -36,6 +40,10 @@ export class NotificationsService {
       referenceId: payload.referenceId ? new Types.ObjectId(payload.referenceId) : undefined,
       referenceType: payload.referenceType,
     });
+
+    // Emit real-time event
+    this.notificationsGateway.sendNotification(doc.toObject());
+
     return doc.toObject();
   }
 

@@ -7,7 +7,7 @@ import { avatarStorage } from '../common/cloudinary';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @UseGuards(JwtAuthGuard)
   @Get()
@@ -32,8 +32,8 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async deactivate(@Param('id') id: string) {
-    const data = await this.usersService.deactivate(id);
+  async delete(@Param('id') id: string) {
+    const data = await this.usersService.delete(id);
     return data ? { success: true, data } : { success: false, message: 'Not found' };
   }
 

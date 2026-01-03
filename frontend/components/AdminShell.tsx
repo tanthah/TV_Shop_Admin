@@ -5,6 +5,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
+import { io } from 'socket.io-client';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -12,6 +16,8 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
     const baseURL = process.env.NEXT_PUBLIC_ADMIN_API_BASE_URL || 'http://localhost:4001';
+
+    // Axios config
     axios.defaults.baseURL = baseURL;
     axios.interceptors.request.use((config) => {
       const token = Cookies.get('admin_token') || '';
@@ -31,6 +37,35 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         return Promise.reject(error);
       },
     );
+
+    // Socket Notification Listener
+    const socket = io(baseURL);
+
+    socket.on('connect', () => {
+      // console.log('Admin socket connected');
+    });
+
+    socket.on('new_notification', (data: any) => {
+      toast.info(data.message || 'Có thông báo mới', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      // Optional: specific sound or detailed type handling
+      if (data.type === 'order_update') {
+        // Maybe refresh orders if on orders page? 
+        // For now just alert is enough as requested.
+      }
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, [router]);
 
   const isAuthRoute =
@@ -80,6 +115,16 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         <path d="M12 22a2 2 0 002-2h-4a2 2 0 002 2zm6-6V9a6 6 0 10-12 0v7l-2 2v1h16v-1l-2-2z"></path>
       </svg>
     ),
+    chat: (
+      <svg className="icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"></path>
+      </svg>
+    ),
+    faq: (
+      <svg className="icon" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"></path>
+      </svg>
+    ),
     categories: (
       <svg className="icon" viewBox="0 0 24 24" fill="currentColor">
         <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path>
@@ -92,6 +137,8 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
     { key: 'orders', label: 'Quản lý đơn hàng', path: '/orders' },
     { key: 'products', label: 'Quản lý sản phẩm', path: '/products' },
     { key: 'categories', label: 'Quản lý danh mục', path: '/categories' },
+    { key: 'chat', label: 'Hỗ trợ khách hàng', path: '/chat' },
+    { key: 'faq', label: 'Quản lý FAQ', path: '/faq' },
     { key: 'users', label: 'Quản lý người dùng', path: '/users' },
     { key: 'promotions', label: 'Quản lý khuyến mãi', path: '/promotions' },
     { key: 'comments', label: 'Quản lý bình luận', path: '/comments' },
@@ -109,15 +156,17 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   return (
     <div className={`admin-layout${collapsed ? ' collapsed' : ''}`}>
       <aside className={`admin-sidebar${collapsed ? ' collapsed' : ''}`}>
-        <div className="sidebar-header flex items-center justify-between px-4 py-4 border-b border-white/10 min-h-[64px]">
+        <div className={`sidebar-header flex ${collapsed ? 'flex-col justify-center gap-4 py-6' : 'items-center justify-between px-4 py-4'} border-b border-white/10 min-h-[64px] transition-all duration-300`}>
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-blue-600 flex-shrink-0 flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-blue-900/20">
               U
             </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-bold tracking-tight whitespace-nowrap text-white leading-tight">UTE Shop</span>
-              <span className="text-[11px] font-medium text-blue-200/80 leading-tight">Admin Portal</span>
-            </div>
+            {!collapsed && (
+              <div className="flex flex-col animate-in fade-in duration-200">
+                <span className="text-sm font-bold tracking-tight whitespace-nowrap text-white leading-tight">UTE Shop</span>
+                <span className="text-[11px] font-medium text-blue-200/80 leading-tight">Admin Portal</span>
+              </div>
+            )}
           </div>
           <button className="toggle-btn w-8 h-8 rounded-md bg-white/10 hover:bg-white/15 border border-white/10 hover:border-white/20 flex items-center justify-center transition-all text-white" onClick={() => setCollapsed(!collapsed)}>
             {collapsed ? '›' : '‹'}
@@ -137,6 +186,9 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         </nav>
         <div className="sidebar-footer">
           <button className="logout-btn" onClick={logout}>
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
             <span>Đăng xuất</span>
           </button>
         </div>

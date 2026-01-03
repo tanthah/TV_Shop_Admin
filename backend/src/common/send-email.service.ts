@@ -5,11 +5,13 @@ import nodemailer from 'nodemailer';
 export class SendEmailService {
   async sendEmail({
     to,
+    bcc,
     subject,
     text,
     html,
   }: {
-    to: string;
+    to?: string;
+    bcc?: string | string[];
     subject: string;
     text?: string;
     html?: string;
@@ -26,6 +28,7 @@ export class SendEmailService {
       const info = await transporter.sendMail({
         from: `"${process.env.EMAIL_FROM_NAME || 'UTE Shop'}" <${process.env.EMAIL_USER}>`,
         to,
+        bcc,
         subject,
         text,
         html,
